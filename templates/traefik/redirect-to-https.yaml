@@ -1,7 +1,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: {{ include "jet-supervision-helm-chart.fullname" . }}-redirect-to-https
+  name: {{ include "jet-app-helm-chart.fullname" . }}-redirect-to-https
 spec:
   redirectScheme:
     scheme: https

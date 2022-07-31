@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "jet-supervision-helm-chart.fullname" . }}
+  name: {{ include "jet-app-helm-chart.fullname" . }}
   labels:
-    {{- include "jet-supervision-helm-chart.labels" . | nindent 4 }}
+    {{- include "jet-app-helm-chart.labels" . | nindent 4 }}
 data:
   APPLICATION_NAME: {{ .Values.applicationName }}
-  BASE_URL: {{ include "jet-supervision-helm-chart.app-path" . }}
+  BASE_URL: {{ include "jet-app-helm-chart.app-path" . }}
   SENTRY_DSN: {{ .Values.sentryDsn | quote }}
   SENTRY_RELEASE: {{ .Values.sentryRelease | quote }}
   JET_ENDPOINT: {{ .Values.jetEndpoint }}

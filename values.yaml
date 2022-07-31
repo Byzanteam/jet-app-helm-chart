@@ -1,4 +1,4 @@
-# Default values for jet-supervision-helm-chart.
+# Default values for jet-app-helm-chart.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -12,7 +12,7 @@ imageCredentials:
   email: dev@byzan.team
 
 image:
-  repository: jet/jet-supervision-app
+  repository: jet/jet-app
   tag: "latest"
   pullPolicy: IfNotPresent
 
@@ -31,14 +31,15 @@ resources: {}
 nodeSelector: {}
 
 # Application
-supervisionHost: supervision.jet.localhost
-supervisionTLSSecret:
+appHost: app.jet.localhost
+appTLSSecret:
 
 # Frontend environments
-applicationName: 督查督办
+applicationName: App Name
 jetEndpoint: https://jet.work
 subpath: /
 baseUrl: /
+assetsPath: /jet/app
 sentryDsn: ""
 sentryRelease: ""
 actionList:

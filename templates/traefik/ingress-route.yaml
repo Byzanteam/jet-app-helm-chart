@@ -1,6 +1,6 @@
 {{- $rules := list }}
-{{- $rules = append $rules (printf "Host(`%s`) && PathPrefix(`%s`)" .Values.supervisionHost (include "jet-supervision-helm-chart.app-path" .)) }}
-{{- $rules = append $rules (printf "Host(`%s`) && PathPrefix(`%s`)" .Values.supervisionHost (include "jet-supervision-helm-chart.assets-path" .)) }}
+{{- $rules = append $rules (printf "Host(`%s`) && PathPrefix(`%s`)" .Values.appHost (include "jet-app-helm-chart.app-path" .)) }}
+{{- $rules = append $rules (printf "Host(`%s`) && PathPrefix(`%s`)" .Values.appHost (include "jet-app-helm-chart.assets-path" .)) }}
 
 {{/* Middlewares for web ingress-routes */}}
 {{- $webMiddlewares := list }}
@@ -18,7 +18,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: {{ include "jet-supervision-helm-chart.fullname" . }}-web
+  name: {{ include "jet-app-helm-chart.fullname" . }}-web
 spec:
   entryPoints:
     - web
@@ -27,21 +27,21 @@ spec:
     - match: {{ . }}
       kind: Rule
       services:
-        - name: {{ include "jet-supervision-helm-chart.fullname" $ }}
+        - name: {{ include "jet-app-helm-chart.fullname" $ }}
           port: 80
       middlewares:
         {{- range $webMiddlewares }}
-        - name: {{ include "jet-supervision-helm-chart.fullname" $ }}-{{ . }}
+        - name: {{ include "jet-app-helm-chart.fullname" $ }}-{{ . }}
         {{- end}}
     {{- end }}
 
 ---
 
-{{- if .Values.supervisionTLSSecret | empty | not }}
+{{- if .Values.appTLSSecret | empty | not }}
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: {{ include "jet-supervision-helm-chart.fullname" . }}-websecure
+  name: {{ include "jet-app-helm-chart.fullname" . }}-websecure
 spec:
   entryPoints:
     - websecure
@@ -50,14 +50,14 @@ spec:
     - match: {{ . }}
       kind: Rule
       services:
-        - name: {{ include "jet-supervision-helm-chart.fullname" $ }}
+        - name: {{ include "jet-app-helm-chart.fullname" $ }}
           port: 80
       middlewares:
         {{- range $websecureMiddlewares }}
-        - name: {{ include "jet-supervision-helm-chart.fullname" $ }}-{{ . }}
+        - name: {{ include "jet-app-helm-chart.fullname" $ }}-{{ . }}
         {{- end}}
       tls: {}
     {{- end }}
   tls:
-    secretName: {{ include "jet-supervision-helm-chart.fullname" $ }}-tls-secret
+    secretName: {{ include "jet-app-helm-chart.fullname" $ }}-tls-secret
 {{- end }}

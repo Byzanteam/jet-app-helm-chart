@@ -1,32 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "jet-supervision-helm-chart.fullname" . }}
+  name: {{ include "jet-app-helm-chart.fullname" . }}
   labels:
-    {{- include "jet-supervision-helm-chart.labels" . | nindent 4 }}
-    app: {{ include "jet-supervision-helm-chart.fullname" . }}
+    {{- include "jet-app-helm-chart.labels" . | nindent 4 }}
+    app: {{ include "jet-app-helm-chart.fullname" . }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{- include "jet-supervision-helm-chart.selectorLabels" . | nindent 6 }}
+      {{- include "jet-app-helm-chart.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "jet-supervision-helm-chart.selectorLabels" . | nindent 8 }}
-        app: {{ template "jet-supervision-helm-chart.fullname" . }}
+        {{- include "jet-app-helm-chart.selectorLabels" . | nindent 8 }}
+        app: {{ template "jet-app-helm-chart.fullname" . }}
     spec:
       imagePullSecrets:
-        - name: {{ include "jet-supervision-helm-chart.fullname" . }}-docker-registry-secret
+        - name: {{ include "jet-app-helm-chart.fullname" . }}-docker-registry-secret
       containers:
         - name: {{ .Chart.Name }}
-          image: {{ include "jet-supervision-helm-chart.image" . }}
+          image: {{ include "jet-app-helm-chart.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - configMapRef:
-                name: {{ include "jet-supervision-helm-chart.fullname" . }}
+                name: {{ include "jet-app-helm-chart.fullname" . }}
             - configMapRef:
-                name: {{ include "jet-supervision-helm-chart.fullname" . }}-action-list
+                name: {{ include "jet-app-helm-chart.fullname" . }}-action-list
           ports:
             - name: http
               containerPort: 80
