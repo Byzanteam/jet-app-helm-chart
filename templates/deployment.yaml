@@ -22,17 +22,19 @@ spec:
         - name: {{ .Chart.Name }}
           image: {{ include "jet-app-helm-chart.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          envFrom:
-            - configMapRef:
-                name: {{ include "jet-app-helm-chart.fullname" . }}
-            - configMapRef:
-                name: {{ include "jet-app-helm-chart.fullname" . }}-action-list
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/.env.example.public
           ports:
             - name: http
               containerPort: 80
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ include "jet-app-helm-chart.fullname" . }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

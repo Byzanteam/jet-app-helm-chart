@@ -10,3 +10,15 @@ data:
   SENTRY_DSN: {{ .Values.sentryDsn | quote }}
   SENTRY_RELEASE: {{ .Values.sentryRelease | quote }}
   JET_ENDPOINT: {{ .Values.jetEndpoint }}
+
+  {{- $binary := required "Please set `actionList` in `values.local.yaml`" .Values.actionList }}
+
+  {{- range $line := mustRegexSplit "\n" $binary -1  }}
+  {{- $line = nospace $line }}
+  {{- if and (not (hasPrefix "#" $line)) ($line | empty | not) }}
+
+  {{- $kv := mustRegexSplit "=" $line 2 }}
+  {{ $kv | first }}: {{ $kv | last }}
+  {{- end }}
+
+  {{- end }}
