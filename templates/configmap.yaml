@@ -17,7 +17,7 @@ data:
     {{- if and (not (hasPrefix "#" $line)) ($line | empty | not) }}
 
     {{- $kv := mustRegexSplit "=" $line 2 }}
-    {{ $kv | first }}: {{ $kv | last }}
+    {{ $kv | first }}={{ $kv | last }}
     {{- end }}
 
     {{- end }}
