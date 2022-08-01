@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "jet-app-helm-chart.labels" . | nindent 4 }}
 data:
-  .env.example.public: |
+  .env: |
     APPLICATION_NAME={{ .Values.applicationName }}
     BASE_URL={{ include "jet-app-helm-chart.app-path" . }}
     JET_ENDPOINT={{ .Values.jetEndpoint }}

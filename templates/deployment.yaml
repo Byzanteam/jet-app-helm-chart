@@ -24,8 +24,8 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - name: config-volume
-              mountPath: /etc/.env.example.public
-              subPath: .env.example.public
+              mountPath: /app/.env
+              subPath: .env
           ports:
             - name: http
               containerPort: 80
